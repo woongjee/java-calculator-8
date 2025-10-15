@@ -36,4 +36,22 @@ public class Application {
         else seperator = customSeparator(s);
     }
 
+    private static int calculate(){
+        String[] arr = s.split(seperator);
+        for(String token : arr){
+            if(Integer.parseInt(token) <=0) throw new IllegalArgumentException("양수만 입력 가능");
+            try{
+                Integer.parseInt(token);
+            } catch(NumberFormatException e){
+                throw new IllegalArgumentException("숫자가 아닌 값이 입력");
+            }
+        }
+        for(String str : arr) {
+            for (char c : str.toCharArray()) {
+                if((!Character.isDigit(c))) continue;
+                result += Integer.parseInt(c+"");
+            }
+        }
+        return result;
+    }
 }
