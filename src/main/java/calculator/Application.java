@@ -31,4 +31,9 @@ public class Application {
         return seperator;
     }
 
+    private static void decideSeparator(String s) {
+        if(!s.startsWith("/")) seperator = "[,:]";
+        else seperator = customSeparator(s);
+    }
+
 }
