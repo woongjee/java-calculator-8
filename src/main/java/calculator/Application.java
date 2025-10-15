@@ -25,4 +25,10 @@ public class Application {
         }
     }
 
+    private static String customSeparator(String str) {
+        String seperator = str.charAt(2) + "";
+        s = s.substring(4);
+        return seperator;
+    }
+
 }
