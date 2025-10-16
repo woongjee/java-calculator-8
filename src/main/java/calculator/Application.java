@@ -3,30 +3,26 @@ package calculator;
 import java.util.Scanner;
 
 public class Application {
-    private static String s;
-    private static String seperator;
-    private static int result = 0;
 
     public static void main(String[] args) {
         // TODO: 프로그램 구현
-        input();
-        decideSeparator(s);
-        System.out.println("결과 : " + calculate());
+        String input = input();
+        String separator = decideSeparator(input);
+        int result = calculate(input, separator);
+        System.out.println("결과 : " + result);
     }
 
-    private static void input() {
+    private static String input() {
         Scanner sc = new Scanner(System.in);
         System.out.println("덧셈할 문자열을 입력해 주세요.\n");
 
         if (!sc.hasNextLine()) {
-            s = "0";
-            return;
+            return "";
         }
-        s = sc.nextLine();
+        String s = sc.nextLine();
         s = s.replace("\\n", "\n"); //custom 구분자 사용 시 \n가 이스케이프로 사용되는 것을 방지
         if (s.trim().isEmpty()) {
-            s = "0";
-            return;
+            return "";
         }
         //사용자 입력이 잘못되었을 경우
         if (s.startsWith("//")) {
@@ -35,45 +31,55 @@ public class Application {
                 throw new IllegalArgumentException("잘못된 입력 형식");
             }
         }
+        return s;
     }
 
     private static String customSeparator(String str) {
-        if (!str.startsWith("//") && !str.contains("\n")) {
+        // "//;\n1,2,3" 형태 확인
+        if (!str.startsWith("//") || !str.contains("\n")) {
             throw new IllegalArgumentException("잘못된 입력 형식");
         }
-        String seperator = str.charAt(2) + "";
-        s = s.substring(4);
-        return seperator;
+        return String.valueOf(str.charAt(2)); // 세 번째 문자가 구분자
     }
 
-    private static void decideSeparator(String s) {
-        if (!s.startsWith("/")) {
-            seperator = "[,:]";
-        } else {
-            seperator = customSeparator(s);
+    private static String decideSeparator(String input) {
+        if (!input.startsWith("//")) {
+            return "[,:]"; // 기본 구분자
         }
+        return customSeparator(input);
     }
 
-    private static int calculate() {
-        String[] arr = s.split(seperator);
+    private static int calculate(String input, String separator) {
+        if (input == null || input.isEmpty()) {
+            return 0;
+        }
+        String numbers = input;
+        if (input.startsWith("//")) {
+            int newlineIndex = numbers.indexOf("\n");
+            numbers = input.substring(newlineIndex + 1);
+        }
+        String[] arr = numbers.split(separator);
+        int result = 0;
+
         for (String token : arr) {
-            if (Integer.parseInt(token) < 0) {
-                throw new IllegalArgumentException("양수만 입력 가능");
+            if (token.isEmpty()) {
+                continue;
             }
+
+            int num;
             try {
-                Integer.parseInt(token);
+                num = Integer.parseInt(token);
             } catch (NumberFormatException e) {
-                throw new IllegalArgumentException("숫자가 아닌 값이 입력");
+                throw new IllegalArgumentException("숫자가 아닌 값이 입력.");
             }
-        }
-        for (String str : arr) {
-            for (char c : str.toCharArray()) {
-                if ((!Character.isDigit(c))) {
-                    continue;
-                }
-                result += Integer.parseInt(c + "");
+
+            if (num < 0) {
+                throw new IllegalArgumentException("양수만 입력 가능.");
             }
+
+            result += num;
         }
+
         return result;
     }
 }
