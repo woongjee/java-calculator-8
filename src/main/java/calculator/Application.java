@@ -17,8 +17,17 @@ public class Application {
     private static void input() {
         Scanner sc = new Scanner(System.in);
         System.out.println("덧셈할 문자열을 입력해 주세요.\n");
+
+        if (!sc.hasNextLine()) {
+            s = "0";
+            return;
+        }
         s = sc.nextLine();
         s = s.replace("\\n", "\n"); //custom 구분자 사용 시 \n가 이스케이프로 사용되는 것을 방지
+        if (s.trim().isEmpty()) {
+            s = "0";
+            return;
+        }
         //사용자 입력이 잘못되었을 경우
         if (s.startsWith("//")) {
             int newLineIndex = s.indexOf("\n");
@@ -48,7 +57,7 @@ public class Application {
     private static int calculate() {
         String[] arr = s.split(seperator);
         for (String token : arr) {
-            if (Integer.parseInt(token) <= 0) {
+            if (Integer.parseInt(token) < 0) {
                 throw new IllegalArgumentException("양수만 입력 가능");
             }
             try {
