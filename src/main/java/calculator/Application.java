@@ -39,7 +39,12 @@ public class Application {
         if (!str.startsWith("//") || !str.contains("\n")) {
             throw new IllegalArgumentException("잘못된 입력 형식");
         }
-        return String.valueOf(str.charAt(2)); // 세 번째 문자가 구분자
+        int start = str.indexOf("//") + 2;
+        int end = str.indexOf("\n");
+        if (start >= end) {
+            throw new IllegalArgumentException("구분자가 비어 있거나 잘못된 위치에 있음");
+        }
+        return str.substring(start, end);
     }
 
     private static String decideSeparator(String input) {
