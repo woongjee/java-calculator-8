@@ -37,13 +37,15 @@
 
 ## 코드 구조
 
-| 메서드                         | 역할                      |
-|-----------------------------|-------------------------|
-| input()                     | 사용자 입력을 받음 및 형식 검증      |
-| decideSeparator(String s)   | 기본/커스텀 구분자 판별           |
-| customSeparator(String str) | 커스텀 구분자 추출 및 본문 문자열 자르기 |
-| calculate()                 | 문자열을 구분자로 분리하여 숫자 합산    |
-| main()                      | 전체 프로그램 실행 흐름 제어        |
+| 메서드                            | 위치                   | 역할                      |
+|--------------------------------|----------------------|-------------------------|
+| input()                        | InputView            | 사용자 입력을 받음 및 형식 검증      |
+| decideSeparator(String)        | CalculatorService    | 기본/커스텀 구분자 판별           |
+| customSeparator(String)        | CalculatorService    | 커스텀 구분자 추출 및 본문 문자열 자르기 |
+| calculate(String, String)      | CalculatorService    | 문자열을 구분자로 분리하여 숫자 합산    |
+| main()                         | Application          | 프로그램 시작                 |
+| printResult(CalculationResult) | OutputView           | 계산 결과 출력                |
+| run()                          | CalculatorController | 프로그램 실행 흐름 제어           |
 
 ---
 
